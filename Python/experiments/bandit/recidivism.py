@@ -63,7 +63,8 @@ def get_nsrl_class(definition='GroupFairness', ci_type='ttest'):
 def eval_offset_trees(dataset, mp):
 	t = time()
 	S, A, R, T, P = dataset.training_splits(flatten=True)
-	new_policy = OffsetTree(base_algorithm=LogisticRegression(), nchoices=dataset.n_actions)
+	## added solver='saga'
+	new_policy = OffsetTree(base_algorithm=LogisticRegression(solver='saga'), nchoices=dataset.n_actions)
 	new_policy.fit(X=S, a=A, r=R, p=P)
 	t_train = time() - t
 

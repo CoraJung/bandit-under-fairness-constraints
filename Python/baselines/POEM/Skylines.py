@@ -210,7 +210,8 @@ class PRMWrapper(Skylines):
             self.params['l2reg'] = [0]
 
         if minV <= maxV:
-            varArray = numpy.logspace(minV, maxV, num = (maxV - minV + 1), base = 10.0)
+            # add int()
+            varArray = numpy.logspace(minV, maxV, num = int(maxV - minV + 1), base = 10.0)
             varList = varArray.tolist()
             self.params['varpenalty'] = varList
         else:
