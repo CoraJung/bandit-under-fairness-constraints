@@ -64,7 +64,7 @@ def eval_offset_trees(dataset, mp):
 	t = time()
 	S, A, R, T, P = dataset.training_splits(flatten=True)
 	## added solver='saga'
-	new_policy = OffsetTree(base_algorithm=LogisticRegression(solver='saga'), nchoices=dataset.n_actions)
+	new_policy = OffsetTree(base_algorithm=LogisticRegression(solver='liblinear'), nchoices=dataset.n_actions)
 	new_policy.fit(X=S, a=A, r=R, p=P)
 	t_train = time() - t
 
