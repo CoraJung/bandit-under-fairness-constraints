@@ -214,8 +214,8 @@ if __name__ == '__main__':
 		#    Dataset arguments
 		parser.add_sweepable_argument('--r_train_v_test', type=float, default=0.4,  nargs='*', help='Ratio of data used for training vs testing.')
 		parser.add_sweepable_argument('--r_cand_v_safe',  type=float, default=0.4,  nargs='*', help='Ratio of training data used for candidate selection vs safety checking. (SMLA only)')
-		parser.add_argument('--T0_label',       type=str, default='African-American', help='ID for type 0.')
-		parser.add_argument('--T1_label',       type=str, default='Caucasian',        help='ID for type 1.')
+		parser.add_argument('--T0_label',       type=str, default='W', help='ID for type 0.')
+		parser.add_argument('--T1_label',       type=str, default='B', help='ID for type 1.')
 		parser.add_argument('--include_T',      action='store_true', help='Whether or not to include type as a predictive feature.')
 		parser.add_argument('--omit_intercept', action='store_true', help='Whether or not to include an intercept as a predictive feature (included by default).')
 		parser.add_sweepable_argument('--data_pct', type=float, default=1.0,   nargs='*', help='Percentage of the overall size of the dataset to use.')
