@@ -195,6 +195,7 @@ def load_dataset(tparams, seed):
 		'use_cached_gps'    : True,
 		'data_path'         : tparams['data_path'] 
 	}
+	print(tparams['data_path'])
 	return NODA.load(**dset_args)	
 
 
