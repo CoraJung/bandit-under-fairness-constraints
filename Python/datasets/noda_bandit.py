@@ -56,7 +56,9 @@ def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=Fals
 	A = A[I]
 	R = R[I]
 	T = T[I]	
-
+	print("noda_bandit, S:", S.shape)
+	print("noda_bandit, A:", A.shape)
+	
 	# Compute split sizes
 	n_samples   = len(S)
 	n_train     = int(r_train*n_samples)
