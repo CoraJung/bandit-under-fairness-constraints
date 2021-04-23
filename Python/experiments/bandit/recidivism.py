@@ -193,7 +193,7 @@ def load_dataset(tparams, seed):
 		'rwd_recid'         : tparams['rwd_recid'],
 		'rwd_nonrecid'      : tparams['rwd_nonrecid'],
 		'use_cached_gps'    : True,
-		'data_path'			: tparams['data_path'] 
+		'data_path'         : tparams['data_path'] 
 	}
 	return NODA.load(**dset_args)	
 
