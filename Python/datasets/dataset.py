@@ -259,16 +259,19 @@ class BanditDataset(RLDataset):
 		kernel = 1.0 * RBF(1.0)
 		self._proba_gp = GaussianProcessClassifier(kernel)
 		X = np.hstack((self._S[:,0,:],self._T[:,None]))
+		print(">>>>>X\n", X.shape)
 		I = np.arange(X.shape[0])
 		np.random.shuffle(I)
 		n_attempts = 0
 		n_train = int(use_pct*X.shape[0])
+		print("n_train", n_train)
 		while len(np.unique(self._A[I[:n_train]])) < self.n_actions and n_attempts < 100: #n_attempts = n_epochs
 			np.random.shuffle(I)
 			n_attempts += 1
 		if len(np.unique(self._A[I[:n_train]])) < self.n_actions and n_attempts == 100:
 			raise RuntimeError('Unable to train GP on a representative sample of actions')
 		I = I[:n_train]
+		print(">>>>>I:", I)
 		self._proba_gp.fit(X[I],self._A[I][:,0]) #X = covariates, Y = action
 
 	def train_return_gp(self, returns, use_pct=0.1):
