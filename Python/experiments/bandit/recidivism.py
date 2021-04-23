@@ -5,7 +5,7 @@ import pandas as pd
 
 # SeldonianML imports
 from utils import argsweep, experiment
-from datasets  import propublica_bandit as ProPublica
+from datasets  import noda_bandit as NODA
 from core.srl_fairness  import GroupFairnessSRL
 from baselines.naive_full  import GroupFairnessNaiveSRL
 
@@ -192,9 +192,10 @@ def load_dataset(tparams, seed):
 		'use_score_text'    : tparams['use_score_text'],
 		'rwd_recid'         : tparams['rwd_recid'],
 		'rwd_nonrecid'      : tparams['rwd_nonrecid'],
-		'use_cached_gps'    : True
+		'use_cached_gps'    : True,
+		'data_path'			: tparams['data_path'] 
 	}
-	return ProPublica.load(**dset_args)	
+	return NODA.load(**dset_args)	
 
 
 ############
@@ -210,6 +211,7 @@ if __name__ == '__main__':
 	with argsweep.ArgumentSweeper() as parser:
 		#    Execution parameters
 		parser.add_argument('base_path',      type=str)
+		parser.add_argument('--data_path',    type=str)
 		parser.add_argument('--n_jobs',       type=int, default=4,  help='Number of processes to use.')
 		parser.add_argument('--n_trials',     type=int, default=10, help='Number of trials to run.')
 		#    Dataset arguments
@@ -246,7 +248,7 @@ if __name__ == '__main__':
 		}
 		
 		#    Store task parameters:
-		tparam_names = ['n_jobs', 'base_path', 'data_pct', 'T0_label', 'T1_label', 'r_train_v_test', 'r_cand_v_safe', 'include_T', 'dset_type', 'omit_intercept', 'use_score_text', 'rwd_recid', 'rwd_nonrecid']
+		tparam_names = ['n_jobs', 'base_path', 'data_pct', 'T0_label', 'T1_label', 'r_train_v_test', 'r_cand_v_safe', 'include_T', 'dset_type', 'omit_intercept', 'use_score_text', 'rwd_recid', 'rwd_nonrecid', 'data_path']
 		tparams = {k:args_dict[k] for k in tparam_names}
 		#    Store method parameters:
 		srl_mparam_names  = ['e','d','n_iters', 'ci_type', 'definition']

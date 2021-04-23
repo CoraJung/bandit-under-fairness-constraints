@@ -237,18 +237,25 @@ class BanditDataset(RLDataset):
 		S = S[:,None,:] # Convert S into a sequence of length-1 trajectories
 		A = A[:,None]
 		# Compute reference probabilities if they aren't provided
+		# NODA'S P = predicting a sentencing treatment (= choose an action)
 		if P is None:
 			self.train_proba_gp()
 			X = np.hstack((self._S[:,0,:],self._T[:,None]))
-			Ps = self._proba_gp.predict_proba(X)
-			P = np.array([ [Ps[i,a]] for i,a in enumerate(A) ])
+			Ps = self._proba_gp.predict_proba(X) #policy pi to choose action a (probulica: decile score) given X
+			P = np.array([ [Ps[i,a]] for i,a in enumerate(A) ]) #map the probability with action (?)
 		else:
 			P = P[:,None]
 			self._proba_gp = None
 		self._return_gp = None
 		super().__init__(S, A, R, T, P, n_actions, n_candidate, n_safety, n_test, min_reward, max_reward, seed=seed, gamma=1.0, Rc_func=Rc_func)
 		
-	def train_proba_gp(self, use_pct=0.1):
+	def train_proba_gp(self, use_pct=0.1): 
+		""" 
+		training the model that predicts p(A) (training policy)
+		current model: gaussian process
+		X: covariates
+		Y: actions
+		"""
 		kernel = 1.0 * RBF(1.0)
 		self._proba_gp = GaussianProcessClassifier(kernel)
 		X = np.hstack((self._S[:,0,:],self._T[:,None]))
@@ -256,15 +263,20 @@ class BanditDataset(RLDataset):
 		np.random.shuffle(I)
 		n_attempts = 0
 		n_train = int(use_pct*X.shape[0])
-		while len(np.unique(self._A[I[:n_train]])) < self.n_actions and n_attempts < 100:
+		while len(np.unique(self._A[I[:n_train]])) < self.n_actions and n_attempts < 100: #n_attempts = n_epochs
 			np.random.shuffle(I)
 			n_attempts += 1
 		if len(np.unique(self._A[I[:n_train]])) < self.n_actions and n_attempts == 100:
 			raise RuntimeError('Unable to train GP on a representative sample of actions')
 		I = I[:n_train]
-		self._proba_gp.fit(X[I],self._A[I][:,0])
+		self._proba_gp.fit(X[I],self._A[I][:,0]) #X = covariates, Y = action
 
 	def train_return_gp(self, returns, use_pct=0.1):
+		""" 
+		predict rewards 
+		(for other experiments, not propublica/noda)
+
+		"""
 		Y = np.zeros(len(self._R))
 		for i,r in enumerate(self._R):
 			Y[i] = np.where(r==returns)[0]
