@@ -19,7 +19,7 @@ def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=Fals
 	print("S before np logical:", scores['RACE_DFDN'])
 	# Generate the full dataset
 	#S = scores[scores['RACE_DFDN'].isin([T0,T1])].copy()
-	S = scores[np.logical_or(scores['RACE_DFDN']=="W", scores['RACE_DFDN']=="B")].copy() 
+	S = scores[np.logical_or(scores['RACE_DFDN']==T0, scores['RACE_DFDN']==T1)].copy() 
 	print("S after np logical:", S.shape)
 	#A is the action, A = df['ACTION']
 	A = S['ACTION'].astype(int).astype(str)
