@@ -29,7 +29,7 @@ def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=Fals
 	R = np.sign(S['RECIDIVIZE_FLAG'].values-0.5) #orig: two_year_recid
 	R = (R==-1)*rwd_nonrecid + (R==1)*rwd_recid
 
-	#S = S[LABELS_TO_KEEP]
+	S = S[LABELS_TO_KEEP]
 
 	# Turn some covariates to one-hot encoding -> may need more depending on X
 	S = with_dummies(S, 'SEX_DFDN') 
