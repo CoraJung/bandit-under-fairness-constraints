@@ -8,15 +8,15 @@ from utils import keyboard
 
 
 
-
+DATA_PATH = "/misc/vlgscratch5/PichenyGroup/s2i-common/bandit-under-fairness-constraints/Python/datasets/noda/noda_trial.csv"
 
 # Need to determine X
 LABELS_TO_KEEP = np.array(['SEX_DFDN', 'CHARGE_CLASS']) #use our cals
 
 
-def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=False, include_intercept=True, use_pct=1.0, use_score_text=False, rwd_recid=-1.0, rwd_nonrecid=1.0, use_cached_gps=False, data_path=data_path):
+def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=False, include_intercept=True, use_pct=1.0, use_score_text=False, rwd_recid=-1.0, rwd_nonrecid=1.0, use_cached_gps=False):
 	random = np.random.RandomState(seed)
-	scores = pd.read_csv(data_path)
+	scores = pd.read_csv(DATA_PATH)
 
 	# Generate the full dataset
 	S = scores[np.logical_or(scores[race]==T0, scores[race]==T1)].copy() 
