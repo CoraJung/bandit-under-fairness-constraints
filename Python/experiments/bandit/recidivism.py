@@ -184,7 +184,6 @@ def load_dataset(tparams, seed):
 		'r_candidate'       : tparams['r_cand_v_safe'], 
 		'T0'                : tparams['T0_label'], 
 		'T1'                : tparams['T1_label'], 
-		'dset_type'         : tparams['dset_type'], 
 		'seed'              : seed, 
 		'include_T'         : tparams['include_T'], 
 		'include_intercept' : not(tparams['omit_intercept']),
@@ -217,7 +216,6 @@ if __name__ == '__main__':
 		parser.add_sweepable_argument('--r_cand_v_safe',  type=float, default=0.4,  nargs='*', help='Ratio of training data used for candidate selection vs safety checking. (SMLA only)')
 		parser.add_argument('--T0_label',       type=str, default='African-American', help='ID for type 0.')
 		parser.add_argument('--T1_label',       type=str, default='Caucasian',        help='ID for type 1.')
-		parser.add_argument('--dset_type',      type=str, default='violent',          help='Version of the ProPublica data to use (violent or nonviolent).')
 		parser.add_argument('--include_T',      action='store_true', help='Whether or not to include type as a predictive feature.')
 		parser.add_argument('--omit_intercept', action='store_true', help='Whether or not to include an intercept as a predictive feature (included by default).')
 		parser.add_sweepable_argument('--data_pct', type=float, default=1.0,   nargs='*', help='Percentage of the overall size of the dataset to use.')
@@ -246,7 +244,7 @@ if __name__ == '__main__':
 		}
 		
 		#    Store task parameters:
-		tparam_names = ['n_jobs', 'base_path', 'data_pct', 'T0_label', 'T1_label', 'r_train_v_test', 'r_cand_v_safe', 'include_T', 'dset_type', 'omit_intercept', 'use_score_text', 'rwd_recid', 'rwd_nonrecid']
+		tparam_names = ['n_jobs', 'base_path', 'data_pct', 'T0_label', 'T1_label', 'r_train_v_test', 'r_cand_v_safe', 'include_T', 'omit_intercept', 'use_score_text', 'rwd_recid', 'rwd_nonrecid']
 		tparams = {k:args_dict[k] for k in tparam_names}
 		#    Store method parameters:
 		srl_mparam_names  = ['e','d','n_iters', 'ci_type', 'definition']
