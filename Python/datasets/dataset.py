@@ -238,6 +238,7 @@ class BanditDataset(RLDataset):
 		A = A[:,None]
 		# Compute reference probabilities if they aren't provided
 		# NODA'S P = predicting a sentencing treatment (= choose an action)
+		super().__init__(S, A, R, T, P, n_actions, n_candidate, n_safety, n_test, min_reward, max_reward, seed=seed, gamma=1.0, Rc_func=Rc_func)
 		if P is None:
 			self.train_proba_gp()
 			X = np.hstack((self._S[:,0,:],self._T[:,None]))
@@ -247,7 +248,6 @@ class BanditDataset(RLDataset):
 			P = P[:,None]
 			self._proba_gp = None
 		self._return_gp = None
-		super().__init__(S, A, R, T, P, n_actions, n_candidate, n_safety, n_test, min_reward, max_reward, seed=seed, gamma=1.0, Rc_func=Rc_func)
 		
 	def train_proba_gp(self, use_pct=0.1): 
 		""" 
