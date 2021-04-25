@@ -299,7 +299,7 @@ class BanditDataset(RLDataset):
 	def _get_splits(self, index_key, t=None, flatten=False, corrected_R=True):
 		if not(t is None):
 			index_key += ('_%d' % t)
-		inds = sef._inds[index_key]l
+		inds = self._inds[index_key]
 		S = self._S[inds][:,0,:] if flatten else self._S[inds]
 		print('>>[_get_splits]: A[inds]':, self._A[inds])
 		print('>>[_get_splits]: A[inds][:,0]':, self._A[inds][:,0])
