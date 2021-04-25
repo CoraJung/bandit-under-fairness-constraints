@@ -81,7 +81,7 @@ class Logger:
         sampledLabels = numpy.zeros((numSamples, numLabels), dtype = numpy.int)
         logpropensity = numpy.zeros(numSamples, dtype = numpy.longdouble)
         for i in range(numLabels):
-            if self.crf.labeler[i] is not None:
+            if self.crf.labr[iele] is not None:
                 regressor = self.crf.labeler[i]
                 predictedProbabilities = regressor.predict_log_proba(dataset.trainFeatures)
 
@@ -90,18 +90,30 @@ class Logger:
                 sampledLabels[:, i] = sampledLabel.astype(int)
 
                 probSampledLabel = numpy.zeros(numSamples, dtype=numpy.longdouble)
+                print("--predictedProbabilities[sampledLabel, 1]: ", predictedProbabilities[sampledLabel, 1].shape)
                 probSampledLabel[sampledLabel] = predictedProbabilities[sampledLabel, 1]
                 remainingLabel = numpy.logical_not(sampledLabel)
                 probSampledLabel[remainingLabel] = predictedProbabilities[remainingLabel, 0]
+                print("-- probSampledLabel[remainingLabel].shape: ", probSampledLabel[remainingLabel].shape)
+                print("-- probSampledLabel.shape: ", probSampledLabel.shape)
                 logpropensity = logpropensity + probSampledLabel
+
+        
 
         diffLabels = sampledLabels != dataset.trainLabels
         sampledLoss = diffLabels.sum(axis = 1, dtype = numpy.longdouble) - numLabels
+
+        print("---Inside POEM --- logpropensity: ", logpropensity)
+        print("---Inside POEM --- logpropensity shape: ", logpropensity.shape)
+        print("Logger: [Message] Sampled historical logs. [Mean train loss, numSamples]:", averageSampledLoss, numpy.shape(sampledLabels)[0])
+        print("Logger: [Message] [min, max, mean] inv propensity", logpropensity.min(), logpropensity.max(), logpropensity.mean())
+        
 
         if self.verbose:
             averageSampledLoss = sampledLoss.mean(dtype = numpy.longdouble)
             print("Logger: [Message] Sampled historical logs. [Mean train loss, numSamples]:", averageSampledLoss, numpy.shape(sampledLabels)[0])
             print("Logger: [Message] [min, max, mean] inv propensity", logpropensity.min(), logpropensity.max(), logpropensity.mean())
             sys.stdout.flush()
+        
         return sampledLabels, logpropensity, sampledLoss
 
