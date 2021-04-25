@@ -238,7 +238,7 @@ if __name__ == '__main__':
 		# Define the evaluators to be included in the experiment and specify which ones are Seldonian
 		model_evaluators = {
 			model_name   : eval_sb,
-			'POEM'       : eval_poem,
+# 			'POEM'       : eval_poem,
 			'OffsetTree' : eval_offset_trees,
 			'Naive'      : eval_naive
 		}
