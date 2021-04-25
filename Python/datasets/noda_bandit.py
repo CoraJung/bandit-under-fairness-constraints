@@ -16,11 +16,9 @@ LABELS_TO_KEEP = np.array(['SEX_DFDN', 'CHARGE_CLASS', 'RACE_DFDN']) #use our ca
 def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=False, include_intercept=True, use_pct=1.0, use_score_text=False, rwd_recid=-1.0, rwd_nonrecid=1.0, use_cached_gps=False):
 	random = np.random.RandomState(seed)
 	scores = pd.read_csv(DATA_PATH)
-	print("S before np logical:", scores['RACE_DFDN'])
 	# Generate the full dataset
 	#S = scores[scores['RACE_DFDN'].isin([T0,T1])].copy()
 	S = scores[np.logical_or(scores['RACE_DFDN']==T0, scores['RACE_DFDN']==T1)].copy() 
-	print("S after np logical:", S.shape)
 	#A is the action, A = df['ACTION']
 	A = S['ACTION'].astype(int)
 	A = A.values 
@@ -58,8 +56,6 @@ def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=Fals
 	A = A[I]
 	R = R[I]
 	T = T[I]	
-	print("noda_bandit, S:", S.shape)
-	print("noda_bandit, A:", A.shape)
 	
 	# Compute split sizes
 	n_samples   = len(S)
