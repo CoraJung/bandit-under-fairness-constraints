@@ -22,10 +22,11 @@ def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=Fals
 	S = scores[np.logical_or(scores['RACE_DFDN']==T0, scores['RACE_DFDN']==T1)].copy() 
 	print("S after np logical:", S.shape)
 	#A is the action, A = df['ACTION']
-	A = S['ACTION'].astype(int).astype(str)
+	A = S['ACTION'].astype(int)
 	A = A.values 
 
 	n_actions = len(np.unique(A))
+	
 	R = np.sign(S['RECIDIVIZE_FLAG'].values-0.5) #orig: two_year_recid
 	R = (R==-1)*rwd_nonrecid + (R==1)*rwd_recid
 
