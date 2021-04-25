@@ -222,6 +222,10 @@ class MajorizeStochasticEstimator(MajorizeISEstimator):
 
         PartitionPerInstanceLabel = scipy.special.expit(wx)
         LabelPartitionPerInstanceLabel = y - PartitionPerInstanceLabel
+        print("mask:", mask)
+        print("mask shape:", mask.shape)
+        print("LPP:", LabelPartitionPerInstanceLabel)
+        print("LPP shape:", LabelPartitionPerInstanceLabel.shape)
         LabelPartitionPerInstanceLabel[mask, :] = 0
 
         LossLabelPartitionPerInstanceLabel = numpy.multiply(LabelPartitionPerInstanceLabel,
