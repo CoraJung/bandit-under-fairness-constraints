@@ -241,9 +241,10 @@ class BanditDataset(RLDataset):
 		super().__init__(S, A, R, T, P, n_actions, n_candidate, n_safety, n_test, min_reward, max_reward, seed=seed, gamma=1.0, Rc_func=Rc_func)
 		if P is None:
 			self.train_proba_gp()
-			X = np.hstack((self._S[:,0,:],self._T[:,None]))
-			Ps = self._proba_gp.predict_proba(X) #policy pi to choose action a (probulica: decile score) given X
-			P = np.array([ [Ps[i,a]] for i,a in enumerate(A) ]) #map the probability with action (?)
+			X = np.hstack((self._S[:,0,:],self._T[:,None])) 
+			Ps = self._proba_gp.predict_proba(X) # X: row x cols #policy pi to choose action a (probulica: decile score) given X
+			P = np.array([ [Ps[i,a]] for i,a in enumerate(A) ]) #row x 1 #map the probability with action (?)
+			print('>>> [BanditDataset] P: ', P)
 		else:
 			P = P[:,None]
 			self._proba_gp = None
@@ -271,7 +272,7 @@ class BanditDataset(RLDataset):
 		if len(np.unique(self._A[I[:n_train]])) < self.n_actions and n_attempts == 100:
 			raise RuntimeError('Unable to train GP on a representative sample of actions')
 		I = I[:n_train]
-		print(">>>>>I:", I)
+		# print(">>>>>I:", I)
 		self._proba_gp.fit(X[I],self._A[I][:,0]) #X = covariates, Y = action
 
 	def train_return_gp(self, returns, use_pct=0.1):
@@ -297,7 +298,7 @@ class BanditDataset(RLDataset):
 	def _get_splits(self, index_key, t=None, flatten=False, corrected_R=True):
 		if not(t is None):
 			index_key += ('_%d' % t)
-		inds = self._inds[index_key]
+		inds = sef._inds[index_key]l
 		S = self._S[inds][:,0,:] if flatten else self._S[inds]
 		A = self._A[inds][:,0]   if flatten else self._A[inds]
 		P = self._P[inds][:,0]   if flatten else self._P[inds]
