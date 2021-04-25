@@ -245,6 +245,7 @@ class BanditDataset(RLDataset):
 			Ps = self._proba_gp.predict_proba(X) # X: row x cols #policy pi to choose action a (probulica: decile score) given X
 			P = np.array([ [Ps[i,a]] for i,a in enumerate(A) ]) #row x 1 #map the probability with action (?)
 			print('>>> [BanditDataset] P: ', P)
+
 		else:
 			P = P[:,None]
 			self._proba_gp = None
@@ -300,7 +301,12 @@ class BanditDataset(RLDataset):
 			index_key += ('_%d' % t)
 		inds = sef._inds[index_key]l
 		S = self._S[inds][:,0,:] if flatten else self._S[inds]
+		print('>>[_get_splits]: A[inds]':, self._A[inds])
+		print('>>[_get_splits]: A[inds][:,0]':, self._A[inds][:,0])
 		A = self._A[inds][:,0]   if flatten else self._A[inds]
+
+		print('>>[_get_splits]: P[inds]':, self._P[inds])
+		print('>>[_get_splits]: P[inds][0]':, self._P[inds][0])
 		P = self._P[inds][:,0]   if flatten else self._P[inds]
 		R = self._R[inds] if corrected_R else self._R_raw[inds]
 		return S, A, R, self._T[inds], P
