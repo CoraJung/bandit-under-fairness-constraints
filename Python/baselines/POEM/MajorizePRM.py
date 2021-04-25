@@ -199,16 +199,30 @@ class MajorizeStochasticEstimator(MajorizeISEstimator):
         wx = x.dot(w)
         ywx = numpy.multiply(wx, ySign)
         ProbPerInstanceLabel = scipy.special.expit(ywx)
+        print("ProbPerInstanceLabel shape:", ProbPerInstanceLabel.shape)
+        print("ProbPerInstanceLabel:", ProbPerInstanceLabel)
         zeroMask = ProbPerInstanceLabel <= 0
+        print("zeroMask shape:", zeroMask.shape)
+        print("zeroMask:", zeroMask)
         ProbPerInstanceLabel[zeroMask] = 1.0
         zeroEntries = zeroMask.sum(axis = 1, dtype = numpy.int)
+        print("zeroEntries shape:", zeroEntries.shape)
+        print("zeroEntries:", zeroEntries)        
         zeroMask = zeroEntries > 0
-
+        print("zeroMask shape:", zeroMask.shape)
+        print("zeroMask:", zeroMask)   
+        
         logProbPerInstanceLabel = numpy.log(ProbPerInstanceLabel)
         logProbPerInstance = numpy.sum(logProbPerInstanceLabel, axis = 1, dtype = numpy.longdouble)
-
+        print("logProbPerInstance shape:", logProbPerInstance.shape)
+        print("logProbPerInstance:", logProbPerInstance)   
+        
         logImportanceSampleWeights = logProbPerInstance - p
+        print("logImportanceSampleWeights shape:", logImportanceSampleWeights.shape)
+        print("logImportanceSampleWeights:", logImportanceSampleWeights)           
         mask = numpy.logical_and(logImportanceSampleWeights >= self.clip, numpy.logical_not(zeroMask))
+        print("mask shape:", mask.shape)
+        print("mask:", mask)             
         logImportanceSampleWeights[mask] = self.clip
 
         if self.verbose:
