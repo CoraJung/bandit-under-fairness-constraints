@@ -81,7 +81,7 @@ class Logger:
         sampledLabels = numpy.zeros((numSamples, numLabels), dtype = numpy.int)
         logpropensity = numpy.zeros(numSamples, dtype = numpy.longdouble)
         for i in range(numLabels):
-            if self.crf.labr[iele] is not None:
+            if self.crf.labeler[i] is not None:
                 regressor = self.crf.labeler[i]
                 predictedProbabilities = regressor.predict_log_proba(dataset.trainFeatures)
 
