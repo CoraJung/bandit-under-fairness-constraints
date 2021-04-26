@@ -264,7 +264,7 @@ class BanditDataset(RLDataset):
 		np.random.shuffle(I)
 		n_attempts = 0
 		n_train = int(use_pct*X.shape[0])
-		while len(np.unique(self._A[I[:n_train]])) < self.n_actions and n_attempts < 100: #n_attempts = n_epochs
+		while len(np.unique(self._A[I[:n_train]])) < self.n_actions and n_attempts < 1000: #n_attempts = n_epochs
 			np.random.shuffle(I)
 			n_attempts += 1
 		if len(np.unique(self._A[I[:n_train]])) < self.n_actions and n_attempts == 100:
