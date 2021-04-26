@@ -8,7 +8,7 @@ from utils import keyboard
 
 
 
-DATA_PATH = "/misc/vlgscratch5/PichenyGroup/s2i-common/bandit-under-fairness-constraints/Python/datasets/noda/noda_trial.csv"
+DATA_PATH = "/misc/vlgscratch5/PichenyGroup/s2i-common/bandit-under-fairness-constraints/Python/datasets/noda/noda_trial.pkl"
 
 # Need to determine X
 CAT_TO_KEEP = ['DISP_CODE_SENT', 'SENTENCE_TYPE', 'HABITUAL_OFFENDER_FLAG_SENT', 'SENTENCE_LOCATION', \
