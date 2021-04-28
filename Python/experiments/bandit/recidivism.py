@@ -1,7 +1,7 @@
 import numpy as np
 import warnings
 from time import time
-import pandas as pd
+import cudf as pd
 
 # SeldonianML imports
 from utils import argsweep, experiment
@@ -191,7 +191,8 @@ def load_dataset(tparams, seed):
 		'use_score_text'    : tparams['use_score_text'],
 		'rwd_recid'         : tparams['rwd_recid'],
 		'rwd_nonrecid'      : tparams['rwd_nonrecid'],
-		'use_cached_gps'    : True
+		'use_cached_gps'    : True,
+		'add_info'			: tparams['add_info']
 	}
 	return NODA.load(**dset_args)	
 
@@ -222,6 +223,7 @@ if __name__ == '__main__':
 		parser.add_argument('--use_score_text', action='store_true', help='Whether or not to base actions off of the COMPAS score text (default uses the "decile_score" feature).')
 		parser.add_argument('--rwd_recid',      type=float, default=-1.0, help='Reward for instances of recidivism.')
 		parser.add_argument('--rwd_nonrecid',   type=float, default=1.0,  help='Reward for instances of non-recidivism.')
+		parser.add_argument('--add_info', type=list, default=['all'], help='Choice of including judge\'s or ada\'s personal information.')
 		#    Seldonian algorithm parameters
 		parser.add_argument('--ci_type',    type=str, default='ttest',        help='Choice of confidence interval to use in the Seldonian methods.')
 		parser.add_argument('--definition',    type=str, default='GroupFairness',        help='Choice of safety definition to enforce.')
@@ -244,7 +246,7 @@ if __name__ == '__main__':
 		}
 		
 		#    Store task parameters:
-		tparam_names = ['n_jobs', 'base_path', 'data_pct', 'T0_label', 'T1_label', 'r_train_v_test', 'r_cand_v_safe', 'include_T', 'omit_intercept', 'use_score_text', 'rwd_recid', 'rwd_nonrecid']
+		tparam_names = ['n_jobs', 'base_path', 'data_pct', 'T0_label', 'T1_label', 'r_train_v_test', 'r_cand_v_safe', 'include_T', 'omit_intercept', 'use_score_text', 'rwd_recid', 'rwd_nonrecid','add_info']
 		tparams = {k:args_dict[k] for k in tparam_names}
 		#    Store method parameters:
 		srl_mparam_names  = ['e','d','n_iters', 'ci_type', 'definition']

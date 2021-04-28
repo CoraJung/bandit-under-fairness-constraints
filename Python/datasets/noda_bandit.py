@@ -1,5 +1,5 @@
 import numpy as np
-import pandas as pd
+import cudf as pd
 import os.path
 
 import joblib
@@ -8,22 +8,32 @@ from utils import keyboard
 
 
 
-DATA_PATH = "/misc/vlgscratch5/PichenyGroup/s2i-common/bandit-under-fairness-constraints/Python/datasets/noda/csv_versions/noda_trial.csv"
+DATA_PATH = "/misc/vlgscratch5/PichenyGroup/s2i-common/bandit-under-fairness-constraints/Python/datasets/noda/noda_trial.pkl"
 
 # Need to determine X
 CAT_TO_KEEP = ['DISP_CODE_SENT', 'SENTENCE_TYPE', 'HABITUAL_OFFENDER_FLAG_SENT', 'SENTENCE_LOCATION', \
-                 'CUSTODY_CODE', 'CRIMINAL_FLAG', 'SEX_DFDN', 'RACE_DFDN', 'JUVENILE_INVOLVED_FLAG', 'RACE_TRIAL_ADA', \
-                'SEX_TRIAL_ADA', 'PARTY_TRIAL_ADA', 'SEX_SCREEN_ADA', 'PARTY_SCREEN_ADA', 'BOND_MADE_FLAG', \
-                'CHARGE_CAT', 'BOND_TYPE_CODE', 'SEX_JUDGE', 'RACE_JUDGE','PARTY_JUDGE', 'RACE_SCREEN_ADA' ]
+                 'CUSTODY_CODE', 'CRIMINAL_FLAG', 'SEX_DFDN', 'RACE_DFDN', 'JUVENILE_INVOLVED_FLAG', \
+                   'BOND_MADE_FLAG', 'CHARGE_CAT', 'BOND_TYPE_CODE' ]
 NUM_TO_KEEP = ['FINE_AMOUNT', 'NBR_OF_DFDN', 'AGE_DFDN', 'AGE_DFDN_ISNA', 'CASE_CLASS_ISNA', \
-                'BOND_MADE_AMOUNT', 'BOND_SET_AMOUNT', 'CHARGE_CLASS', 'AGE_JUDGE', 'DOB_SCREEN_ADA', 'DOB_TRIAL_ADA', \
-                'AGE_JUDGE_ISNA', 'AGE_SCREEN_ADA_ISNA', 'AGE_TRIAL_ADA_ISNA', 'CHARGE_CLASS_ISNA']
+                'BOND_MADE_AMOUNT', 'BOND_SET_AMOUNT', 'CHARGE_CLASS', \
+            	  'CHARGE_CLASS_ISNA']
+
+JUDGE_CAT = ['SEX_JUDGE', 'RACE_JUDGE','PARTY_JUDGE']
+JUDGE_NUM = ['AGE_JUDGE','AGE_JUDGE_ISNA']
+
+TRIAL_ADA_CAT = ['RACE_TRIAL_ADA','SEX_TRIAL_ADA','PARTY_TRIAL_ADA']
+TRIAL_ADA_NUM = ['DOB_TRIAL_ADA','AGE_TRIAL_ADA_ISNA']
+
+SCREEN_ADA_CAT = ['RACE_SCREEN_ADA','SEX_SCREEN_ADA', 'PARTY_SCREEN_ADA']
+SCREEN_ADA_NUM = ['DOB_SCREEN_ADA', 'AGE_SCREEN_ADA_ISNA']
+
 
 LABELS_TO_KEEP = CAT_TO_KEEP + NUM_TO_KEEP
 
-def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=False, include_intercept=True, use_pct=1.0, use_score_text=False, rwd_recid=-1.0, rwd_nonrecid=1.0, use_cached_gps=False):
+def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=False, include_intercept=True, use_pct=1.0, use_score_text=False, rwd_recid=-1.0, rwd_nonrecid=1.0, use_cached_gps=False, add_info=['all']):
+	"""Add add_info argument to select which covariates to include, choices: ['all','judge','trial_ada','screen_ada','none']"""
 	random = np.random.RandomState(seed)
-	scores = pd.read_csv(DATA_PATH)
+	scores = pd.read_pickle(DATA_PATH)
 	# Generate the full dataset
 	#S = scores[scores['RACE_DFDN'].isin([T0,T1])].copy()
 	S = scores[np.logical_or(scores['RACE_DFDN']==T0, scores['RACE_DFDN']==T1)].copy() 
@@ -36,6 +46,25 @@ def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=Fals
 	R = np.sign(S['RECIDIVIZE_FLAG'].values-0.5) #orig: two_year_recid
 	R = (R==-1)*rwd_nonrecid + (R==1)*rwd_recid
 
+	for info in add_info:
+		if info == 'none':
+			print('Adding no additional covariates...')
+			break
+		if info =='all':
+			print('Adding all additional covariates...')
+			LABELS_TO_KEEP = LABELS_TO_KEEP + JUDGE_CAT + JUDGE_NUM + TRIAL_ADA_CAT + TRIAL_ADA_NUM + SCREEN_ADA_CAT + SCREEN_ADA_NUM
+			break
+		if info == 'judge':
+			print('Adding judge-related covariates...')
+			LABELS_TO_KEEP = LABELS_TO_KEEP + JUDGE_CAT + JUDGE_NUM
+		if info == 'trial_ada':
+			print('Adding trial-ada -related covariates...')
+			LABELS_TO_KEEP = LABELS_TO_KEEP + TRIAL_ADA_CAT + TRIAL_ADA_NUM
+		if info == 'screen_ada':
+			print('Adding screen-ada -related covariates...')
+			LABELS_TO_KEEP = LABELS_TO_KEEP + SCREEN_ADA_CAT + SCREEN_ADA_NUM
+		
+	print("Number of total covariates to pick: ", len(LABELS_TO_KEEP))
 	S = S[LABELS_TO_KEEP]
 
 	# Turn all cat covariates to one-hot encoding -> do race separately
