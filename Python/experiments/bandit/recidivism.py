@@ -192,7 +192,7 @@ def load_dataset(tparams, seed):
 		'rwd_recid'         : tparams['rwd_recid'],
 		'rwd_nonrecid'      : tparams['rwd_nonrecid'],
 		'use_cached_gps'    : True,
-		'add_info'			: tparams['add_info']
+		'add_info'			: args_dict['add_info']]
 	}
 	return NODA.load(**dset_args)	
 
@@ -246,7 +246,7 @@ if __name__ == '__main__':
 		}
 		
 		#    Store task parameters:
-		tparam_names = ['n_jobs', 'base_path', 'data_pct', 'T0_label', 'T1_label', 'r_train_v_test', 'r_cand_v_safe', 'include_T', 'omit_intercept', 'use_score_text', 'rwd_recid', 'rwd_nonrecid','add_info']
+		tparam_names = ['n_jobs', 'base_path', 'data_pct', 'T0_label', 'T1_label', 'r_train_v_test', 'r_cand_v_safe', 'include_T', 'omit_intercept', 'use_score_text', 'rwd_recid', 'rwd_nonrecid']
 		tparams = {k:args_dict[k] for k in tparam_names}
 		#    Store method parameters:
 		srl_mparam_names  = ['e','d','n_iters', 'ci_type', 'definition']
