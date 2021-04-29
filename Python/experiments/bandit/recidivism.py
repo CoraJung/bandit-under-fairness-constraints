@@ -1,7 +1,7 @@
 import numpy as np
 import warnings
 from time import time
-import cudf as pd
+import pandas as pd
 
 # SeldonianML imports
 from utils import argsweep, experiment

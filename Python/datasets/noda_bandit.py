@@ -1,5 +1,5 @@
 import numpy as np
-import cudf as pd
+import pandas as pd
 import os.path
 
 import joblib
