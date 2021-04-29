@@ -223,7 +223,7 @@ if __name__ == '__main__':
 		parser.add_argument('--use_score_text', action='store_true', help='Whether or not to base actions off of the COMPAS score text (default uses the "decile_score" feature).')
 		parser.add_argument('--rwd_recid',      type=float, default=-1.0, help='Reward for instances of recidivism.')
 		parser.add_argument('--rwd_nonrecid',   type=float, default=1.0,  help='Reward for instances of non-recidivism.')
-		parser.add_argument('--add_info', type=list, default=['all'], help='Choice of including judge\'s or ada\'s personal information.')
+		parser.add_argument('--add_info', type=str, default='all', nargs='*', help='Choice of including judge\'s or ada\'s personal information.')
 		#    Seldonian algorithm parameters
 		parser.add_argument('--ci_type',    type=str, default='ttest',        help='Choice of confidence interval to use in the Seldonian methods.')
 		parser.add_argument('--definition',    type=str, default='GroupFairness',        help='Choice of safety definition to enforce.')
