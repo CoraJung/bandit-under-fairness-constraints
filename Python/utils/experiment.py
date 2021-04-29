@@ -547,6 +547,11 @@ def prepare_paths(dirname, tparams, mparams, smla_names, root='results', filenam
 
     # Save the parameters to the hdf5 store
     with pd.HDFStore(save_path) as store:
+        # add print function to debug:
+        debug = utils.stack_all_dicts(*tparams)
+        print("debug pd 1-dim issue... print utils.stack_all_dicts(*tparams)")
+        print(debug)
+        print('>>type:', type(debug), '>>length:', len(debug))
         store.append('task_parameters', pd.DataFrame(utils.stack_all_dicts(*tparams)))
         for k,mps in mparams.items():
             store.append('method_parameters/%s' % k, pd.DataFrame(utils.stack_all_dicts(*mps)))
