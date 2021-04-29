@@ -56,16 +56,20 @@ def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=Fals
 		if info =='all':
 			print('Adding all additional covariates...')
 			LABELS_TO_KEEP = LABELS_TO_KEEP + JUDGE_CAT + JUDGE_NUM + TRIAL_ADA_CAT + TRIAL_ADA_NUM + SCREEN_ADA_CAT + SCREEN_ADA_NUM
+			CAT_TO_KEEP = CAT_TO_KEEP + JUDGE_CAT + TRIAL_ADA_CAT + SCREEN_ADA_CAT
 			break
 		if info == 'judge':
 			print('Adding judge-related covariates...')
 			LABELS_TO_KEEP = LABELS_TO_KEEP + JUDGE_CAT + JUDGE_NUM
+			CAT_TO_KEEP = CAT_TO_KEEP + JUDGE_CAT
 		if info == 'trial_ada':
 			print('Adding trial-ada -related covariates...')
 			LABELS_TO_KEEP = LABELS_TO_KEEP + TRIAL_ADA_CAT + TRIAL_ADA_NUM
+			CAT_TO_KEEP = CAT_TO_KEEP + TRIAL_ADA_CAT 
 		if info == 'screen_ada':
 			print('Adding screen-ada -related covariates...')
 			LABELS_TO_KEEP = LABELS_TO_KEEP + SCREEN_ADA_CAT + SCREEN_ADA_NUM
+			CAT_TO_KEEP = CAT_TO_KEEP + SCREEN_ADA_CAT
 		
 	print("Number of total covariates to pick: ", len(LABELS_TO_KEEP))
 	S = S[LABELS_TO_KEEP]
