@@ -549,8 +549,8 @@ def prepare_paths(dirname, tparams, mparams, smla_names, root='results', filenam
     with pd.HDFStore(save_path) as store:
         # add print function to debug:
         debug = utils.stack_all_dicts(*tparams)
-        print("print utils.stack_all_dicts(*tparams)...")
-        print(debug)
+        # print("print utils.stack_all_dicts(*tparams)...")
+        # print(debug)
         #print('>>type:', type(debug), '>>length:', len(debug))
         store.append('task_parameters', pd.DataFrame(utils.stack_all_dicts(*tparams)))
         for k,mps in mparams.items():
