@@ -62,16 +62,27 @@ class SeldonianRLBase:
 	def get_return(self, S, T, P, returnf=None, A_ref=None, P_ref=None, R_ref=None, seed=None):
 		if not(returnf is None): # We have the return function: evaluate true return
 			A = sample_actions(P, seed=seed)
+			print('Returnf is Not NONE')
+			print('Returning....')
+			print(returnf(S, A, T))
 			return returnf(S, A, T)
 		else: # We don't have the return function. Do an IS estimate
 			# This part can throw a divide by zero error if Pr(A|new_policy) = 0, but
 			#   it is not a problem. However, if Pr(A|old_policy) = 0, that should 
 			#   throw an error because the IS estimate is undefined in that case.
+			print("Returnf is NONE....")
 			with warnings.catch_warnings(record=True) as w:
 				warnings.simplefilter("ignore", category=RuntimeWarning)
 				lP  = np.array([ np.log(_P)[range(len(_P)), _A].sum() for (_P,_A) in zip(P,A_ref) ])
 			lPR = np.array([ np.log(_P).sum() for _P in P_ref ])
 			C   = np.array([ self._iw_type_corrections[t] for t in T ]) 
+			
+			print('# of missing in C: ', np.isnan(C).sum())
+			print('shape of C', C.shape)
+			print('# of missing in lPR: ', np.isnan(lPR).sum())
+			print('shape of lPR', lPR.shape)
+			print('np.exp(lP - lPR): ', np.exp(lP - lPR))
+			print('what the get_return returns: ', C * np.exp(lP - lPR) * R_ref)
 			return C * np.exp(lP - lPR) * R_ref
 
 
