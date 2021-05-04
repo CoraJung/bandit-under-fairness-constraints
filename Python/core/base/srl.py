@@ -73,13 +73,8 @@ class SeldonianRLBase:
 			lPR = np.array([ np.log(_P).sum() for _P in P_ref ])
 			C   = np.array([ self._iw_type_corrections[t] for t in T ]) 
 			
-			print('# of missing in C: ', np.isnan(C).sum())
-			print('# of missing in lP: ', np.isnan(lP).sum())
-			print('# of missing in lPR: ', np.isnan(lPR).sum())
-			print('# of missing in np.exp(lP-lPR): ', np.isnan(np.exp(lP - lPR)).sum())
-			print('# of missing in R_ref: ', np.isnan(R_ref).sum())
-			print('# of zeros in _P: ', sum([ len(_P[_P==0]) for _P in P ]))
-			      
+			print('# of missing in log(P), input of lP: ', np.isnan(np.log(P)).sum())
+		
 			return C * np.exp(lP - lPR) * R_ref
 
 
