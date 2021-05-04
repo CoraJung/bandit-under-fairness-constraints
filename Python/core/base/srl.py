@@ -78,6 +78,8 @@ class SeldonianRLBase:
 			print('# of missing in lPR: ', np.isnan(lPR).sum())
 			print('# of missing in np.exp(lP-lPR): ', np.isnan(np.exp(lP - lPR)).sum())
 			print('# of missing in R_ref: ', np.isnan(R_ref).sum())
+			print('# of zeros in _P: ', sum([ len(_P[_P==0]) for _P in P ]))
+			      
 			return C * np.exp(lP - lPR) * R_ref
 
 
