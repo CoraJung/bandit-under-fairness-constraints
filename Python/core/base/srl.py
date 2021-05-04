@@ -100,6 +100,7 @@ class SeldonianRLBase:
 				P = np.zeros_like(V)
 				P[range(P.shape[0]), np.argmax(V,axis=1)] = 1.0
 				pvals.append(P)
+				print("probs function check nan:", np.isnan(P).sum())
 			return np.array(pvals)
 		elif self.model_type == 'softmax':
 			for _S in S:
@@ -107,6 +108,7 @@ class SeldonianRLBase:
 				P = np.exp(V)
 				P = P / np.sum(P, axis=1)[:,None]
 				pvals.append(P)
+				print("probs function check nan:", np.isnan(P).sum())
 			return np.array(pvals)
 		raise ValueError('NaiveSafeRLBase.action(): Unknown model type \'%s\'.' % self.model_type)
 
