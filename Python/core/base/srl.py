@@ -72,8 +72,8 @@ class SeldonianRLBase:
 				lP  = np.array([ np.log(_P)[range(len(_P)), _A].sum() for (_P,_A) in zip(P,A_ref) ])
 			lPR = np.array([ np.log(_P).sum() for _P in P_ref ])
 			C   = np.array([ self._iw_type_corrections[t] for t in T ]) 
-			
-			print('# of missing in log(P), input of lP: ', np.isnan(np.log(P)).sum())
+			if np.isnan(np.log(P)).sum() > 0:
+				print('# of missing in log(P), input of lP: ', np.isnan(np.log(P)).sum())
 		
 			return C * np.exp(lP - lPR) * R_ref
 
@@ -95,7 +95,8 @@ class SeldonianRLBase:
 				P = np.zeros_like(V)
 				P[range(P.shape[0]), np.argmax(V,axis=1)] = 1.0
 				pvals.append(P)
-				print("probs function check nan:", np.isnan(P).sum())
+				if np.isnan(P).sum() > 0:
+					print("probs function check nan:", np.isnan(P).sum())
 			return np.array(pvals)
 		elif self.model_type == 'softmax':
 			for _S in S:
@@ -103,7 +104,8 @@ class SeldonianRLBase:
 				P = np.exp(V)
 				P = P / np.sum(P, axis=1)[:,None]
 				pvals.append(P)
-				print("probs function check nan:", np.isnan(P).sum())
+				if np.isnan(P).sum() > 0:
+					print("probs function check nan:", np.isnan(P).sum())
 			return np.array(pvals)
 		raise ValueError('NaiveSafeRLBase.action(): Unknown model type \'%s\'.' % self.model_type)
 
@@ -214,8 +216,9 @@ class SeldonianRLBase:
 			vm_data = self.load_split(dataset, name, probf=probf, returnf=returnf, seed=seed, probf_by_type=probf_by_type)
 			for rv_name, rv in self._eval_rvs.items():
 				meta['%s_%s' % (name, rv_name)] = self._vm.get(rv.name).value()
-			print(">>> check nan in vm_data['R']:", np.isnan(vm_data['R']).sum())
-			print(">>>", name, sum(vm_data['R'])) 
+			if np.isnan(vm_data['R']).sum() > 0: 
+				print(">>> check nan in vm_data['R']:", np.isnan(vm_data['R']).sum())
+				print(">>>", name, sum(vm_data['R'])) 
 			meta['return_%s' % name] = np.mean(vm_data['R'])
 
 		# Record SMLA-specific values or add baseline defaults
