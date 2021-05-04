@@ -217,6 +217,8 @@ class SeldonianRLBase:
 			vm_data = self.load_split(dataset, name, probf=probf, returnf=returnf, seed=seed, probf_by_type=probf_by_type)
 			for rv_name, rv in self._eval_rvs.items():
 				meta['%s_%s' % (name, rv_name)] = self._vm.get(rv.name).value()
+			print(">>> check nan in vm_data['R']:", np.isnan(vm_data['R']).sum())
+			print(">>>", name, sum(vm_data['R'])) 
 			meta['return_%s' % name] = np.mean(vm_data['R'])
 
 		# Record SMLA-specific values or add baseline defaults
