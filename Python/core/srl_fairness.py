@@ -162,7 +162,7 @@ def GroupFairnessRLMixin(mode='ttest', scaling=2.0):
 	return GroupFairness
 
 class GroupFairnessSRL(GroupFairnessRLMixin(mode='ttest', scaling=2.0), SeldonianRLBase):
-	def __init__(self, is_positivef, epsilon=0.05, delta=0.05, model_type='softmax', minimum_return=1):
+	def __init__(self, is_positivef, epsilon=0.05, delta=0.05, model_type='argmax', minimum_return=1): # orig: model_type='softmax'
 		epsilons = np.array([ epsilon ])
 		deltas   = np.array([   delta ])
 		super().__init__(epsilons, deltas, model_type=model_type, minimum_return=minimum_return)
