@@ -71,10 +71,7 @@ class SeldonianRLBase:
 				warnings.simplefilter("ignore", category=RuntimeWarning)
 				lP  = np.array([ np.log(_P)[range(len(_P)), _A].sum() for (_P,_A) in zip(P,A_ref) ])
 			lPR = np.array([ np.log(_P).sum() for _P in P_ref ])
-			C   = np.array([ self._iw_type_corrections[t] for t in T ]) 
-			if np.isnan(np.log(P)).sum() > 0:
-				print('# of missing in log(P), input of lP: ', np.isnan(np.log(P)).sum())
-		
+			C   = np.array([ self._iw_type_corrections[t] for t in T ]) 		
 			return C * np.exp(lP - lPR) * R_ref
 
 
@@ -98,23 +95,9 @@ class SeldonianRLBase:
 			return np.array(pvals)
 		elif self.model_type == 'softmax':
 			for _S in S:
-				if np.isnan(_S).sum() > 0:
-					print("check nan in _S (each row in S):", np.isnan(_S).sum())
-				if np.isnan(theta).sum()>0:
-					print("check nan in theta:", np.isnan(theta).sum())
 				V = _S.dot(theta)
-				if np.isnan(V).sum()>0:
-					print("check nan in dot product:", np.isnan(V).sum())
 				P = np.exp(V)
-				_dummyP = P
-				if np.isnan(P).sum()>0:
-					print("check nan in np.exp(V):", np.isnan(P).sum())
 				P = P / np.sum(P, axis=1)[:,None]
-				_dummy = np.sum(P, axis=1)[:,None]
-				if np.isnan(_dummy).sum() > 0:
-					print("probs func np.sum check nan:", np.isnan(_dummy).sum())	
-					print("P before dividing by np.sum:", _dummyP)
-					print("P after dividing by np.sum:", P)
 				pvals.append(P)
 			return np.array(pvals)
 		raise ValueError('NaiveSafeRLBase.action(): Unknown model type \'%s\'.' % self.model_type)
@@ -226,9 +209,6 @@ class SeldonianRLBase:
 			vm_data = self.load_split(dataset, name, probf=probf, returnf=returnf, seed=seed, probf_by_type=probf_by_type)
 			for rv_name, rv in self._eval_rvs.items():
 				meta['%s_%s' % (name, rv_name)] = self._vm.get(rv.name).value()
-			if np.isnan(vm_data['R']).sum() > 0: 
-				print(">>> check nan in vm_data['R']:", np.isnan(vm_data['R']).sum())
-				print(">>>", name, sum(vm_data['R'])) 
 			meta['return_%s' % name] = np.mean(vm_data['R'])
 
 		# Record SMLA-specific values or add baseline defaults
