@@ -106,11 +106,12 @@ class SeldonianRLBase:
 				if np.isnan(V).sum()>0:
 					print("check nan in dot product:", np.isnan(V).sum())
 				P = np.exp(V)
+				if np.isnan(P).sum()>0:
+					print("check nan in np.exp(V):", np.isnan(P).sum())
 				P = P / np.sum(P, axis=1)[:,None]
 				_dummy = np.sum(P, axis=1)[:,None]
 				if np.isnan(_dummy).sum() > 0:
 					print("probs func np.sum check nan:", np.isnan(_dummy).sum())	
-					print("P shape:", P.shape)
 					print("P:", P)
 				pvals.append(P)
 			return np.array(pvals)
