@@ -100,12 +100,12 @@ class SeldonianRLBase:
 			for _S in S:
 				V = _S.dot(theta)
 				P = np.exp(V)
-				if np.isnan(P).sum() > 0:
-					print("probs func after exponential check nan:", np.isnan(P).sum())
 				P = P / np.sum(P, axis=1)[:,None]
 				_dummy = np.sum(P, axis=1)[:,None]
 				if np.isnan(_dummy).sum() > 0:
-					print("probs func np.sum check nan:", np.isnan(_dummy).sum())				
+					print("probs func np.sum check nan:", np.isnan(_dummy).sum())	
+					print("P shape:", P.shape)
+					print("P:", P)
 				pvals.append(P)
 			return np.array(pvals)
 		raise ValueError('NaiveSafeRLBase.action(): Unknown model type \'%s\'.' % self.model_type)
