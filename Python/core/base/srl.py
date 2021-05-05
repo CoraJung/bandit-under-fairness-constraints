@@ -98,7 +98,13 @@ class SeldonianRLBase:
 			return np.array(pvals)
 		elif self.model_type == 'softmax':
 			for _S in S:
+				if np.isnan(_S).sum() > 0:
+					print("check nan in _S (each row in S):", np.isnan(_S).sum())
+				if np.isnan(theta).sum()>0:
+					print("check nan in theta:", np.isnan(theta).sum())
 				V = _S.dot(theta)
+				if np.isnan(V).sum()>0:
+					print("check nan in dot product:", np.isnan(V).sum())
 				P = np.exp(V)
 				P = P / np.sum(P, axis=1)[:,None]
 				_dummy = np.sum(P, axis=1)[:,None]
