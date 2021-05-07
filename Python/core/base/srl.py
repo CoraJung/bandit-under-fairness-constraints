@@ -71,7 +71,13 @@ class SeldonianRLBase:
 				warnings.simplefilter("ignore", category=RuntimeWarning)
 				lP  = np.array([ np.log(_P)[range(len(_P)), _A].sum() for (_P,_A) in zip(P,A_ref) ])
 			lPR = np.array([ np.log(_P).sum() for _P in P_ref ])
-			C   = np.array([ self._iw_type_corrections[t] for t in T ]) 		
+			C   = np.array([ self._iw_type_corrections[t] for t in T ]) 	
+			if np.isnan(lP).sum() > 0:
+				print("check nan in lP:", np.isnan(lP).sum())	
+			if np.isnan(lPR).sum() > 0:
+				print("check nan in lPR:", np.isnan(lPR).sum())		
+			if np.isnan(C).sum() > 0:
+				print("check nan in C:", np.isnan(C).sum())					
 			return C * np.exp(lP - lPR) * R_ref
 
 
@@ -91,6 +97,8 @@ class SeldonianRLBase:
 				V = _S.dot(theta)
 				P = np.zeros_like(V)
 				P[range(P.shape[0]), np.argmax(V,axis=1)] = 1.0
+				if np.isnan(P).sum() > 0:
+					print("check nan in P:", np.isnan(P).sum())
 				pvals.append(P)
 			return np.array(pvals)
 		elif self.model_type == 'softmax':
