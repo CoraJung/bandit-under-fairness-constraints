@@ -11,7 +11,7 @@ DATA_PATH = "/misc/vlgscratch5/PichenyGroup/s2i-common/bandit-under-fairness-con
 
 def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=False, include_intercept=True, use_pct=1.0, use_score_text=False, rwd_recid=-1.0, rwd_nonrecid=1.0, use_cached_gps=False, add_info=['all'], key_feature='RACE_DFDN'):
 	"""Add add_info argument to select which covariates to include, choices: ['all','judge','trial_ada','screen_ada','none']"""
-
+	print('Key feature to evaluate fairness constraints is: ', key_feature)
 	#----------COVARIATES----------#
 	
 	CAT_TO_KEEP = ['DISP_CODE_SENT', 'SENTENCE_TYPE', 'HABITUAL_OFFENDER_FLAG_SENT', 'SENTENCE_LOCATION', \
@@ -41,6 +41,7 @@ def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=Fals
 	#S = scores[scores['RACE_DFDN'].isin([T0,T1])].copy()
 	
 	S = scores[np.logical_or(scores[key_feature]==T0, scores[key_feature]==T1)].copy() 
+	print('Number of obs selected by 2 groups of {} is {}'.format(key_feature, len(S)))
 	
 	#A is the action, A = df['ACTION']
 	A = S['ACTION'].astype(int)
