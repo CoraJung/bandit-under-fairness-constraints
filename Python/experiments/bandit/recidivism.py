@@ -192,7 +192,8 @@ def load_dataset(tparams, seed):
 		'rwd_recid'         : tparams['rwd_recid'],
 		'rwd_nonrecid'      : tparams['rwd_nonrecid'],
 		'use_cached_gps'    : True,
-		'add_info'			: args_dict['add_info']
+		'add_info'			: args_dict['add_info'],
+		'key_feature'		: args_dict['key_feature'],
 	}
 	return NODA.load(**dset_args)	
 
@@ -224,6 +225,7 @@ if __name__ == '__main__':
 		parser.add_argument('--rwd_recid',      type=float, default=-1.0, help='Reward for instances of recidivism.')
 		parser.add_argument('--rwd_nonrecid',   type=float, default=1.0,  help='Reward for instances of non-recidivism.')
 		parser.add_argument('--add_info', type=str, default='all', nargs='*', help='Choice of including judge\'s or ada\'s personal information.')
+		parser.add_argument('--key_feature', type=str, default='RACE_DFDN', help='Key feature to judge fairness by.')
 		#    Seldonian algorithm parameters
 		parser.add_argument('--ci_type',    type=str, default='ttest',        help='Choice of confidence interval to use in the Seldonian methods.')
 		parser.add_argument('--definition',    type=str, default='GroupFairness',        help='Choice of safety definition to enforce.')

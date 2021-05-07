@@ -9,7 +9,7 @@ from utils import keyboard
 DATA_PATH = "/misc/vlgscratch5/PichenyGroup/s2i-common/bandit-under-fairness-constraints/Python/datasets/noda/data_merged_0428_final.csv"
 
 
-def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=False, include_intercept=True, use_pct=1.0, use_score_text=False, rwd_recid=-1.0, rwd_nonrecid=1.0, use_cached_gps=False, add_info=['all']):
+def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=False, include_intercept=True, use_pct=1.0, use_score_text=False, rwd_recid=-1.0, rwd_nonrecid=1.0, use_cached_gps=False, add_info=['all'], key_feature='RACE_DFDN'):
 	"""Add add_info argument to select which covariates to include, choices: ['all','judge','trial_ada','screen_ada','none']"""
 
 	#----------COVARIATES----------#
@@ -39,7 +39,9 @@ def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=Fals
 	scores = pd.read_csv(DATA_PATH)
 	# Generate the full dataset
 	#S = scores[scores['RACE_DFDN'].isin([T0,T1])].copy()
-	S = scores[np.logical_or(scores['RACE_DFDN']==T0, scores['RACE_DFDN']==T1)].copy() 
+	
+	S = scores[np.logical_or(scores[key_feature]==T0, scores[key_feature]==T1)].copy() 
+	
 	#A is the action, A = df['ACTION']
 	A = S['ACTION'].astype(int)
 	A = A.values 
@@ -76,11 +78,11 @@ def load(r_train=0.4, r_candidate=0.2, T0='W', T1='B', seed=None, include_T=Fals
 
 	# Turn all cat covariates to one-hot encoding -> do race separately
 	for col in CAT_TO_KEEP:
-		if col != 'RACE_DFDN':
+		if col != key_feature:
 			S = with_dummies(S, col)
 
-	T = 1 * (S['RACE_DFDN']==T1).values #One-hot encoding for race T1
-	del S['RACE_DFDN']
+	T = 1 * (S[key_feature]==T1).values #One-hot encoding for race T1
+	del S[key_feature]
 	L = np.array(S.columns, dtype=str)
 	S = S.values
 	

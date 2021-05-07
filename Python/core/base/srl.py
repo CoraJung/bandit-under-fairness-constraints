@@ -89,11 +89,8 @@ class SeldonianRLBase:
 		if self.model_type == 'argmax':
 			for _S in S:
 				V = _S.dot(theta)
-				print("check nan in V:", np.isnan(V).sum())
 				P = np.zeros_like(V)
 				P[range(P.shape[0]), np.argmax(V,axis=1)] = 1.0
-				print("check nan in np.argmax(V):", np.isnan(np.argmax(V,axis=1)))
-				print("print out np.argmax(V):", np.argmax(V,axis=1))
 				pvals.append(P)
 			return np.array(pvals)
 		elif self.model_type == 'softmax':
