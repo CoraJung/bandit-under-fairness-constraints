@@ -1,5 +1,5 @@
-# Sentencing Under Fairness Constraints: 
-Finding a Fair Policy with Offline Contextual Bandit
+# Sentencing Under Fairness Constraints: \\
+# Finding a Fair Policy with Offline Contextual Bandit
 
 Original code immplementation forked from https://github.com/sgiguere/RobinHood-NeurIPS-2019
 Python code implementing algorithms that provide high-probability safety guarantees for solving offline bandit problems.
