@@ -2,7 +2,7 @@
 
 ## Final Report
 
-For details about our experiments on the NODA dataset, please refer to [here](https://docs.google.com/document/d/17uofC2CaA0BKe8DIyfa38uqWqWOK_pCggPaW2asECJI/edit#).
+For details about our experiments on the NODA dataset, please refer to [here](https://github.com/CoraJung/bandit-under-fairness-constraints/blob/master/%5BFinal%20Paper%5D%20Sentencing%20Under%20Fairness%20Constraints.pdf).
 
 ## Disclaimer
 
