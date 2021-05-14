@@ -1,7 +1,6 @@
-# Sentencing Under Fairness Constraints: \\ Finding a Fair Policy with Offline Contextual Bandit
+# Sentencing Under Fairness Constraints: \ Finding a Fair Policy with Offline Contextual Bandit
 
-Original code immplementation forked from https://github.com/sgiguere/RobinHood-NeurIPS-2019
-Python code implementing algorithms that provide high-probability safety guarantees for solving offline bandit problems.
+Original code immplementation from https://github.com/sgiguere/RobinHood-NeurIPS-2019
 
 # Installation
 
@@ -18,13 +17,7 @@ The remaining dependencies can be installed by executing the following command f
 The experiments featured in the paper can be executed by running the provided batch file from the Python directory, as follows:
 
      ./experiments/scripts/bandit_experiments.bat
-     
-Once the experiments complete, the figures for the paper can be generated using the command, 
-
-     python -m experiments.scripts.bandit_figures
-     
-Once completed, the new figures will be saved to `Python/figures/neurips/*` by default.
 
 # License
 
-Code for RobinHood is released under the MIT license, with the exception of the code for POEM (located in `Python/baselines/POEM`) and the code for FairMachineLearning (located in `Python/baselines/fairml.py`), which are released under their licences assigned by their respective authors.
+Code for RobinHood is released under the MIT license, with the exception of the code for FairMachineLearning (located in `Python/baselines/fairml.py`), which are released under their licences assigned by their respective authors.
