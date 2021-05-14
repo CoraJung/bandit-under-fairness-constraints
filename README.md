@@ -4,7 +4,11 @@
 
 Final report including experiment results can be found [here](https://docs.google.com/document/d/17uofC2CaA0BKe8DIyfa38uqWqWOK_pCggPaW2asECJI/edit#).
 
-# Installation
+## Disclaimer
+
+Reproducing this model can only be done using the ProPublica dataset as the NODA dataset cannot be shared for confidential reasons. 
+
+## Installation
 
 This code has been tested on Ubuntu.
 
@@ -14,7 +18,7 @@ The remaining dependencies can be installed by executing the following command f
 
 	pip install -r requirements.txt
 
-# Usage
+## Usage
 
 The experiments presented in the report can be executed by running the following line in the command:
 
@@ -24,10 +28,10 @@ The experiments presented in the report can be executed by running the following
      
 You can expeirment with different covariate sets by changing the `--add_info` parameter ('none', 'all', 'judge', 'screen_ada', 'trial_ada').
 
-# Acknowledgement
+## Acknowledgement
 
 Original code immplementation comes from https://github.com/sgiguere/RobinHood-NeurIPS-2019.
 
-# License
+## License
 
 Code for RobinHood is released under the MIT license, with the exception of the code for FairMachineLearning (located in `Python/baselines/fairml.py`), which are released under their licences assigned by their respective authors.
