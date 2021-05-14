@@ -13,8 +13,6 @@ from baselines.naive_full  import GroupFairnessNaiveSRL
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 # Imports for baseline algorithms
-from baselines.POEM.Skylines import PRMWrapper
-from baselines.POEM.DatasetReader import BanditDataset
 from contextualbandits.offpolicy import OffsetTree
 from sklearn.linear_model import LogisticRegression
 
@@ -88,52 +86,6 @@ def eval_offset_trees(dataset, mp):
 	results = model.evaluate(dataset, probf=predict_proba)
 	results['train_time'] = t_train
 	return results
-
-def eval_poem(dataset, mp):
-	# Represent our data in a form compatible with POEM
-	bandit_dataset = BanditDataset(None, verbose=False)
-	S, A, R, T, P = dataset.testing_splits(flatten=True)
-	labels = np.zeros((len(A),dataset.n_actions))
-	for i, a in enumerate(A):
-		labels[i,a] = 1.0
-	bandit_dataset.testFeatures = S
-	bandit_dataset.testLabels = labels
-	S, A, R, T, P = dataset.training_splits(flatten=True)
-	labels = np.zeros((len(A),dataset.n_actions))
-	for i, a in enumerate(A):
-		labels[i,a] = 1.0
-	bandit_dataset.trainFeatures = S
-	bandit_dataset.trainLabels = labels
-	bandit_dataset.registerSampledData(labels, np.log(P), R)
-	bandit_dataset.createTrainValidateSplit(0.1)
-    
-    # Train POEM
-	ss = np.random.random((dataset.n_features, dataset.n_actions))
-	maj = PRMWrapper(bandit_dataset, n_iter = 1000, tol = 1e-6, minC = 0, maxC = -1, minV = R.min(), maxV = R.max(),
-								minClip = 0, maxClip = 0, estimator_type = 'Stochastic', verbose = False,
-								parallel = None, smartStart = ss)
-	maj.calibrateHyperParams()
-	t_train = maj.validate()
-
-	# Evaluate using SRL's evaluate method
-	n_actions = dataset.n_actions
-	def is_positive(A):
-		return A > np.floor(n_actions/2)
-	def predict_proba(S):
-		S = S[:,0,:]
-		V = S.dot(maj.labeler.coef_).astype('float64')
-		EV = np.exp(V)
-		return (EV / EV.sum(axis=1)[:,None])[:,None,:]
-	model_params = {
-		'epsilon'        : mp['e'],
-		'delta'          : mp['d'],
-		'minimum_return' : dataset.min_reward }
-	SC_Class = get_srl_class(mp['definition'], mp['ci_type'])
-	model = SC_Class(is_positive, **model_params)
-	results = model.evaluate(dataset, probf=predict_proba)
-	results['train_time'] = t_train
-	return results
-
 
 def eval_naive(dataset, mp):
 	# Train the model
@@ -242,7 +194,6 @@ if __name__ == '__main__':
 		# Define the evaluators to be included in the experiment and specify which ones are Seldonian
 		model_evaluators = {
 			model_name   : eval_sb,
-# 			'POEM'       : eval_poem,
 			'OffsetTree' : eval_offset_trees,
 			'Naive'      : eval_naive
 		}
