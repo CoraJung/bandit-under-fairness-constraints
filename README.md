@@ -29,6 +29,10 @@ The experiments presented in the report can be executed by running the following
 * `recidivism_all`: folder directory to save the results
 * `--add_info`: covariate sets to use ('none', 'all', 'judge', 'screen_ada', 'trial_ada').
 
+## Reading Experiment Outputs
+
+The output of the models comes in .h5 file format. `reading robinhood output.ipynb` in `ipynb` folder will transform the result to well-formated dataframe. 
+
 ## Acknowledgement
 
 Original code immplementation comes from https://github.com/sgiguere/RobinHood-NeurIPS-2019.
