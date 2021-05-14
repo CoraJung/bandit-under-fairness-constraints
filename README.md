@@ -31,7 +31,7 @@ The experiments presented in the report can be executed by running the following
 
 ## Reading Experiment Outputs
 
-Model output comes in .h5 file format. `reading robinhood output.ipynb` in `ipynb` folder will transform the result to a well-formated dataframe. We provide `recidivism_judge.h5` as an sample example file.  
+Model output comes in .h5 file format. `reading robinhood output.ipynb` in `ipynb` folder will transform the result to a well-formated dataframe. We provide `recidivism_judge.h5` as an sample output file.  
 
 ## Acknowledgement
 
