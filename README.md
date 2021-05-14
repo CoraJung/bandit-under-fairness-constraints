@@ -4,7 +4,7 @@ Original code immplementation from https://github.com/sgiguere/RobinHood-NeurIPS
 
 # Final Report
 
-Final report including experiment results can be found at https://docs.google.com/document/d/17uofC2CaA0BKe8DIyfa38uqWqWOK_pCggPaW2asECJI/edit#
+Final report including experiment results can be found at [here](https://docs.google.com/document/d/17uofC2CaA0BKe8DIyfa38uqWqWOK_pCggPaW2asECJI/edit#)
 
 # Installation
 
