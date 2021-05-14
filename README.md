@@ -1,8 +1,14 @@
-# RobinHood
+# Sentencing Under Fairness Constraints: Finding a Fair Policy with Offline Contextual Bandit
 
-Python code implementing algorithms that provide high-probability safety guarantees for solving offline bandit problems.
+## Final Report
 
-# Installation
+Final report including experiment results can be found [here](https://docs.google.com/document/d/17uofC2CaA0BKe8DIyfa38uqWqWOK_pCggPaW2asECJI/edit#).
+
+## Disclaimer
+
+Reproduction can only be done using ProPublica dataset (located in `dataset/propublica`) as NODA dataset cannot be shared for confidential reasons. 
+
+## Installation
 
 This code has been tested on Ubuntu.
 
@@ -12,18 +18,25 @@ The remaining dependencies can be installed by executing the following command f
 
 	pip install -r requirements.txt
 
-# Usage
+## Usage
 
-The experiments featured in the paper can be executed by running the provided batch file from the Python directory, as follows:
+The experiments presented in the report can be executed by running the following line in the command:
 
-     ./experiments/scripts/bandit_experiments.bat
+     python -m experiments.bandit.recidivism recidivism_all --n_trials 5 --definition GroupFairness --e 0.1 \
+     --d 0.05 --ci_type ttest --n_iters 2000 --n_jobs 15  --r_train_v_test 0.4 --r_cand_v_safe 0.4 --rwd_recid -1.0 \
+     --rwd_nonrecid 1.0 --use_score_text --data_pct 1.0 --add_info all
      
-Once the experiments complete, the figures for the paper can be generated using the command, 
+* `recidivism_all`: folder directory to save the results
+* `--add_info`: covariate sets to use ('none', 'all', 'judge', 'screen_ada', 'trial_ada').
 
-     python -m experiments.scripts.bandit_figures
-     
-Once completed, the new figures will be saved to `Python/figures/neurips/*` by default.
+## Reading Experiment Outputs
 
-# License
+Model output comes in .h5 file format. `reading robinhood output.ipynb` in `ipynb` folder will transform the result to a well-formated dataframe. 
 
-Code for RobinHood is released under the MIT license, with the exception of the code for POEM (located in `Python/baselines/POEM`) and the code for FairMachineLearning (located in `Python/baselines/fairml.py`), which are released under their licences assigned by their respective authors.
+## Acknowledgement
+
+Original code immplementation comes from https://github.com/sgiguere/RobinHood-NeurIPS-2019.
+
+## License
+
+Code for RobinHood is released under the MIT license, with the exception of the code for FairMachineLearning (located in `Python/baselines/fairml.py`), which are released under their licences assigned by their respective authors.

@@ -67,6 +67,13 @@ class SeldonianRLBase:
 			# This part can throw a divide by zero error if Pr(A|new_policy) = 0, but
 			#   it is not a problem. However, if Pr(A|old_policy) = 0, that should 
 			#   throw an error because the IS estimate is undefined in that case.
+
+			# S: X
+			# P_ref: true p(A)
+			# lP: predicted p(A)
+			# C: importance-weighted treatments
+			# exp(log(p_pred(A) - p_true(A)))
+			
 			with warnings.catch_warnings(record=True) as w:
 				warnings.simplefilter("ignore", category=RuntimeWarning)
 				lP  = np.array([ np.log(_P)[range(len(_P)), _A].sum() for (_P,_A) in zip(P,A_ref) ])
@@ -78,7 +85,7 @@ class SeldonianRLBase:
 				print("check nan in lPR:", np.isnan(lPR).sum())		
 			if np.isnan(C).sum() > 0:
 				print("check nan in C:", np.isnan(C).sum())					
-			return C * np.exp(lP - lPR) * R_ref
+			return C * np.exp(lP - lPR) * R_ref # exp(log(p_pred(A) - p_true(A))) = exp(log(p_pred(A)/ p_true(A))) = p_pred(A)/p_true(A)
 
 
 	############################
