@@ -35,7 +35,7 @@ Model output comes in .h5 file format. `reading robinhood output.ipynb` in `ipyn
 
 ## Acknowledgement
 
-Original code immplementation comes from https://github.com/sgiguere/RobinHood-NeurIPS-2019.
+Original code comes from https://github.com/sgiguere/RobinHood-NeurIPS-2019, and it has been modified to be applicable for our experiments on NODA.
 
 ## License
 
