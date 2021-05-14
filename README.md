@@ -6,7 +6,7 @@ Final report including experiment results can be found [here](https://docs.googl
 
 ## Disclaimer
 
-Reproducing can only be done using ProPublica dataset (located in `dataset/propublica`) as NODA dataset cannot be shared for confidential reasons. 
+Reproduction can only be done using ProPublica dataset (located in `dataset/propublica`) as NODA dataset cannot be shared for confidential reasons. 
 
 ## Installation
 
