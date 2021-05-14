@@ -6,7 +6,7 @@ For details about our experiments on the NODA dataset, please refer to [here](ht
 
 ## Disclaimer
 
-Reproduction can only be done using ProPublica (located in `dataset/propublica`) as NODA cannot be published for confidential reasons. 
+Reproduction can only be done using ProPublica (located in `dataset/propublica`) as NODA cannot be published for confidential reasons. Our code for data processing on NODA cannot be shared for the same reason.
 
 ## Installation
 
