@@ -31,7 +31,7 @@ The experiments presented in the report can be executed by running the following
 
 ## Reading Experiment Outputs
 
-The output of the models comes in .h5 file format. `reading robinhood output.ipynb` in `ipynb` folder will transform the result to well-formated dataframe. 
+Model output comes in .h5 file format. `reading robinhood output.ipynb` in `ipynb` folder will transform the result to a well-formated dataframe. 
 
 ## Acknowledgement
 
