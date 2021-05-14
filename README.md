@@ -1,6 +1,6 @@
 # Sentencing Under Fairness Constraints: Finding a Fair Policy with Offline Contextual Bandit
 
-# Final Report
+## Final Report
 
 Final report including experiment results can be found [here](https://docs.google.com/document/d/17uofC2CaA0BKe8DIyfa38uqWqWOK_pCggPaW2asECJI/edit#).
 
